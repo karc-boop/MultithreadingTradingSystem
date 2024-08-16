@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include <fstream>
 #include <unordered_map>
 #include "CustomMdSpi.h"

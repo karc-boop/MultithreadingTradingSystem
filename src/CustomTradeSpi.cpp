@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include <time.h>
 #include <thread>
 #include <chrono>
