@@ -113,7 +113,7 @@ void CustomMdSpi::OnRspSubMarketData(
 		std::cout << "instrument code: " << pSpecificInstrument->InstrumentID << std::endl;
 		// if saving to a file or database is needed, create the header here, and store different instruments separately
 		char filePath[100] = {'\0'};
-		sprintf(filePath, "%s_market_data.csv", pSpecificInstrument->InstrumentID);
+		snprintf(filePath, sizeof(filePath), "%s_market_data.csv", pSpecificInstrument->InstrumentID);
 		std::ofstream outFile;
 		outFile.open(filePath, std::ios::out); // create new file
 		outFile << "instrument code" << ","
@@ -193,7 +193,7 @@ void CustomMdSpi::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMar
 	std::cout << "volume: " << pDepthMarketData->Volume << std::endl;
 	// if only market data for a specific instrument is needed, data can be saved to a file or database on a per-tick basis
 	char filePath[100] = {'\0'};
-	sprintf(filePath, "%s_market_data.csv", pDepthMarketData->InstrumentID);
+	snprintf(filePath, sizeof(filePath), "%s_market_data.csv", pDepthMarketData->InstrumentID);
 	std::ofstream outFile;
 	outFile.open(filePath, std::ios::app); // append to the file 
 	outFile << pDepthMarketData->InstrumentID << "," 
@@ -214,12 +214,7 @@ void CustomMdSpi::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMar
 		g_KlineHash[instrumentKey] = TickToKlineHelper();
 	g_KlineHash[instrumentKey].KLineFromRealtimeData(pDepthMarketData);
 
-	// unsubscribe from market data
-	//int rt = g_pMdUserApi->UnSubscribeMarketData(g_pInstrumentID, instrumentNum);
-	//if (!rt)
-	//	std::cout << ">>>>>>market data unsubscription request sent successfully" << std::endl;
-	//else
-	//	std::cerr << "--->>>market data unsubscription request failed" << std::endl;
+	// unsubscribe from market data after receiving the first tick
 }
 
 // quote notification

@@ -3,7 +3,8 @@
 #include <thread>
 #include <chrono>
 #include "CustomTradeSpi.h"
-#include "StrategyTrade.h"
+#include "TradeStrategy.h"
+
 
 // ---- Global Parameter Declarations ---- //
 extern TThostFtdcBrokerIDType gBrokerID;                      // Simulated broker code
@@ -206,7 +207,7 @@ void CustomTradeSpi::OnRspOrderAction(
 void CustomTradeSpi::OnRtnOrder(CThostFtdcOrderField *pOrder)
 {
 	char str[10];
-	sprintf(str, "%d", pOrder->OrderSubmitStatus);
+	snprintf(str, sizeof(str), "%d", pOrder->OrderSubmitStatus);
 	int orderState = atoi(str) - 48;	// Order status: 0 = Submitted, 3 = Accepted
 
 	std::cout << "=====Order response received=====" << std::endl;
